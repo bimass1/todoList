@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TodoList</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+MX:wght@100..400&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playwrite+MX:wght@100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        text-decoration: none;
+      }
+      .navbar {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 10px 0;
+      }
+      .navbar h1 {
+        font-family: "Playwrite MX", cursive;
+      }
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 0 20px;
+      }
+      .header {
+        margin-bottom: 10px;
+      }
+      .header input {
+        padding: 8px;
+        width: 70%;
+        margin-right: 10px;
+      }
+      .header button {
+        padding: 8px 15px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      .content {
+        margin-top: 20px;
+        font-family: "Poppins", sans-serif;
+      }
+      .content p {
+        margin-bottom: 5px;
+        padding: 5px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <h1>TodoList.com</h1>
+    </nav>
+    <div class="container">
+      <div class="header">
+        <input type="text" placeholder="Masukan data" id="input" />
+        <button id="btn">Kirim</button>
+      </div>
+      <div class="content">
+        <div id="hasil"></div>
+      </div>
+    </div>
+    <script>
+      const btn = document.getElementById("btn");
+      const hasil = document.getElementById("hasil");
+      const data = [];
+
+      btn.addEventListener("click", () => {
+        const input = document.getElementById("input").value.toLowerCase().trim();
+        if (input === "") {
+          hasil.innerHTML = "";
+          return;
+        }
+        data.push(input);
+        renderData();
+      });
+
+      const renderData = () => {
+        hasil.innerHTML = "";
+        data.forEach((item, index) => {
+          const p = document.createElement("p");
+          p.textContent = item;
+          const editLink = document.createElement("a");
+          editLink.textContent = "Edit";
+          editLink.href = "#";
+          editLink.style.marginLeft = "25rem";
+          editLink.style.marginRight = "20px";
+          editLink.onclick = () => editTodoItem(index);
+
+          const deleteLink = document.createElement("a");
+          deleteLink.textContent = "Delete";
+          deleteLink.href = "#";
+          deleteLink.onclick = () => deleteTodoItem(index);
+
+          p.appendChild(editLink);
+          p.appendChild(deleteLink);
+
+          hasil.appendChild(p);
+        });
+      };
+
+      const editTodoItem = (index) => {
+        const newValue = prompt("Edit item", data[index]);
+        if (newValue !== null && newValue.trim() !== "") {
+          data[index] = newValue.trim();
+          renderData();
+        }
+      };
+
+      const deleteTodoItem = (index) => {
+        if (confirm("apakah kamu yakin ingin hapus item ini?")) {
+          data.splice(index, 1);
+          renderData();
+        }
+      };
+    </script>
+  </body>
+</html>
